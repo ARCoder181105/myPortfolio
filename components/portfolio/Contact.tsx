@@ -1,11 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, Twitter, Linkedin } from 'lucide-react';
+import { Mail, MapPin, Send, Linkedin, Loader2 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 import { PortfolioConfig } from '@/config/portfolio';
 
 interface ContactProps {
@@ -13,9 +15,65 @@ interface ContactProps {
   social: PortfolioConfig['social'];
 }
 
+// Custom X (Twitter) Logo component
+const XIcon = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    className={className}
+    fill="currentColor"
+  >
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
+
 export function Contact({ data, social }: ContactProps) {
-  const handleSubmit = (e: React.FormEvent) => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) throw new Error('Failed to send message');
+
+      toast({
+        title: "Message Sent!",
+        description: "Thanks for reaching out. I'll get back to you soon.",
+        className: "bg-emerald-600 text-white border-none",
+      });
+
+      // Reset form
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again or email directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -63,33 +121,18 @@ export function Contact({ data, social }: ContactProps) {
                       </div>
                     </div>
 
-                    {/* <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center flex-shrink-0">
-                        <Phone className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-slate-900 dark:text-white mb-1">
-                          Phone
-                        </h4>
-                        <a
-                          href={`tel:${data.phone}`}
-                          className="text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
-                        >
-                          {data.phone}
-                        </a>
-                      </div>
-                    </div> */}
-
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center flex-shrink-0">
-                        <Twitter className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                        <XIcon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                       </div>
                       <div>
                         <h4 className="font-semibold text-slate-900 dark:text-white mb-1">
-                          {`X(Twitter)`}
+                          X (Twitter)
                         </h4>
                         <a
                           href={`${social.twitter}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
                         >
                           @rana61618
@@ -103,19 +146,18 @@ export function Contact({ data, social }: ContactProps) {
                       </div>
                       <div>
                         <h4 className="font-semibold text-slate-900 dark:text-white mb-1">
-                          {`LinkedIn`}
+                          LinkedIn
                         </h4>
                         <a
                           href={`${social.linkedin}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
                         >
                           Aditya Rana
                         </a>
                       </div>
                     </div>
-
-
-
 
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center flex-shrink-0">
@@ -160,6 +202,9 @@ export function Contact({ data, social }: ContactProps) {
                       </label>
                       <Input
                         type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
                         placeholder="Your name"
                         required
                         className="w-full"
@@ -172,6 +217,9 @@ export function Contact({ data, social }: ContactProps) {
                       </label>
                       <Input
                         type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
                         placeholder="your.email@example.com"
                         required
                         className="w-full"
@@ -184,6 +232,9 @@ export function Contact({ data, social }: ContactProps) {
                       </label>
                       <Input
                         type="text"
+                        name="subject"
+                        value={formData.subject}
+                        onChange={handleChange}
                         placeholder="What's this about?"
                         required
                         className="w-full"
@@ -195,6 +246,9 @@ export function Contact({ data, social }: ContactProps) {
                         Message
                       </label>
                       <Textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
                         placeholder="Your message..."
                         rows={5}
                         required
@@ -206,9 +260,19 @@ export function Contact({ data, social }: ContactProps) {
                       type="submit"
                       className="w-full bg-emerald-600 hover:bg-emerald-700"
                       size="lg"
+                      disabled={isSubmitting}
                     >
-                      <Send className="w-4 h-4 mr-2" />
-                      Send Message
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-4 h-4 mr-2" />
+                          Send Message
+                        </>
+                      )}
                     </Button>
                   </form>
                 </CardContent>

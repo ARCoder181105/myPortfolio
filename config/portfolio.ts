@@ -9,6 +9,7 @@ export const portfolioConfig = {
     location: "Pune, Maharashtra, India",
     avatar:
       "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&w=400",
+    resume: "https://drive.google.com/file/d/1bkruanMwy-fELM2IBl-V2ER1QqDDL91P/view?usp=sharing",
   },
 
   social: {

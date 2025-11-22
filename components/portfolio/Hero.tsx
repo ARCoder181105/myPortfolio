@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Twitter, Mail, MapPin, Phone } from 'lucide-react';
+import { Github, Linkedin, Mail, MapPin, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PortfolioConfig } from '@/config/portfolio';
 
@@ -9,6 +9,18 @@ interface HeroProps {
   data: PortfolioConfig['personal'];
   social: PortfolioConfig['social'];
 }
+
+// Custom X (Twitter) Logo component
+const XIcon = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    className={className}
+    fill="currentColor"
+  >
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
 
 export function Hero({ data, social }: HeroProps) {
   return (
@@ -75,10 +87,6 @@ export function Hero({ data, social }: HeroProps) {
                   <Mail className="w-4 h-4" />
                   {data.email}
                 </div>
-                {/* <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
-                  <Phone className="w-4 h-4" />
-                  {data.phone}
-                </div> */}
               </motion.div>
 
               <motion.div
@@ -87,12 +95,20 @@ export function Hero({ data, social }: HeroProps) {
                 transition={{ duration: 0.5, delay: 0.5 }}
                 className="flex flex-wrap gap-4 justify-center md:justify-start"
               >
-                <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700">
+                <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700" asChild>
                   <a href="#contact">Get In Touch</a>
                 </Button>
-                <Button size="lg" variant="outline">
+                <Button size="lg" variant="outline" asChild>
                   <a href="#projects">View Projects</a>
                 </Button>
+                {data.resume && (
+                  <Button size="lg" variant="outline" asChild>
+                    <a href={data.resume} target="_blank" rel="noopener noreferrer">
+                      <FileText className="w-4 h-4 mr-2" />
+                      Resume
+                    </a>
+                  </Button>
+                )}
               </motion.div>
 
               <motion.div
@@ -123,7 +139,7 @@ export function Hero({ data, social }: HeroProps) {
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all duration-300"
                 >
-                  <Twitter className="w-5 h-5" />
+                  <XIcon className="w-5 h-5" />
                 </a>
               </motion.div>
             </div>
