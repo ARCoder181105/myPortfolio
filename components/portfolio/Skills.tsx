@@ -51,7 +51,7 @@ export function Skills({ data }: SkillsProps) {
                             {skill.level}%
                           </span>
                         </div>
-                        <Progress value={skill.level} className="h-2" />
+                        <Progress value={skill.level} max={100} className="h-2" />
                       </div>
                     ))}
                   </CardContent>
