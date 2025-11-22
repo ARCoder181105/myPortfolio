@@ -23,7 +23,7 @@ export default function Home() {
         education={portfolioConfig.education}
         certifications={portfolioConfig.certifications}
       />
-      <Contact data={portfolioConfig.personal} />
+      <Contact data={portfolioConfig.personal} social = {portfolioConfig.social} />
       <Footer social={portfolioConfig.social} name={portfolioConfig.personal.name} />
     </main>
   );

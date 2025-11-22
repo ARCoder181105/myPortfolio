@@ -5,7 +5,7 @@ export const portfolioConfig = {
     tagline: "Building intelligent, scalable, and impactful digital systems",
     bio: "Full-stack developer and competitive programmer skilled in modern web technologies, AI integrations, and backend architecture. I love building fast, scalable, and user-centric applications and solving complex technical problems.",
     email: "adityaranawork111@gmail.com",
-    phone: "8511605842",
+    phone: "",
     location: "Pune, Maharashtra, India",
     avatar:
       "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&w=400",

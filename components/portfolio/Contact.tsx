@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Twitter, Linkedin } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -10,9 +10,10 @@ import { PortfolioConfig } from '@/config/portfolio';
 
 interface ContactProps {
   data: PortfolioConfig['personal'];
+  social: PortfolioConfig['social'];
 }
 
-export function Contact({ data }: ContactProps) {
+export function Contact({ data, social }: ContactProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
   };
@@ -62,7 +63,7 @@ export function Contact({ data }: ContactProps) {
                       </div>
                     </div>
 
-                    <div className="flex items-start gap-4">
+                    {/* <div className="flex items-start gap-4">
                       <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center flex-shrink-0">
                         <Phone className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                       </div>
@@ -77,7 +78,44 @@ export function Contact({ data }: ContactProps) {
                           {data.phone}
                         </a>
                       </div>
+                    </div> */}
+
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center flex-shrink-0">
+                        <Twitter className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-slate-900 dark:text-white mb-1">
+                          {`X(Twitter)`}
+                        </h4>
+                        <a
+                          href={`${social.twitter}`}
+                          className="text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                        >
+                          @rana61618
+                        </a>
+                      </div>
                     </div>
+
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center flex-shrink-0">
+                        <Linkedin className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-slate-900 dark:text-white mb-1">
+                          {`LinkedIn`}
+                        </h4>
+                        <a
+                          href={`${social.linkedin}`}
+                          className="text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                        >
+                          Aditya Rana
+                        </a>
+                      </div>
+                    </div>
+
+
+
 
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center flex-shrink-0">

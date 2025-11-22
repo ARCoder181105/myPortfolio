@@ -75,10 +75,10 @@ export function Hero({ data, social }: HeroProps) {
                   <Mail className="w-4 h-4" />
                   {data.email}
                 </div>
-                <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                {/* <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
                   <Phone className="w-4 h-4" />
                   {data.phone}
-                </div>
+                </div> */}
               </motion.div>
 
               <motion.div
