@@ -7,9 +7,9 @@ export const portfolioConfig = {
     email: "adityaranawork111@gmail.com",
     phone: "",
     location: "Pune, Maharashtra, India",
-    avatar:
-      "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&w=400",
-    resume: "https://drive.google.com/file/d/1bkruanMwy-fELM2IBl-V2ER1QqDDL91P/view?usp=sharing",
+    avatar: "me.jpg",
+    resume:
+      "https://drive.google.com/file/d/1bkruanMwy-fELM2IBl-V2ER1QqDDL91P/view?usp=sharing",
   },
 
   social: {
@@ -90,11 +90,10 @@ export const portfolioConfig = {
       title: "AI-Powered Ticket Management System",
       description:
         "An automated ticketing system using Gemini AI for issue extraction, smart triaging, and category prediction. Includes automated background jobs, email workflows, and real-time dashboards.",
-      image:
-        "https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=600",
+      image: "ai-agent.png",
       tags: ["MERN", "Gemini AI", "Inngest", "Tailwind", "WebSockets"],
-      demoUrl: "",
-      githubUrl: "https://github.com/ARCoder181105",
+      demoUrl: "https://full-stack-ai-agent-frontend.onrender.com/",
+      githubUrl: "https://github.com/ARCoder181105/Full-Stack-AI-Agent",
       featured: true,
     },
     {
@@ -102,11 +101,10 @@ export const portfolioConfig = {
       title: "Document Insight & Engagement System",
       description:
         "Converted PDF libraries into an AI-driven knowledge base with semantic search, contradiction detection, hybrid retrieval, Azure TTS summaries, and interactive PDF viewing. Fully dockerized for production deployment.",
-      image:
-        "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=600",
+      image: "pdf-rag.png",
       tags: ["React", "TypeScript", "Flask", "ChromaDB", "Azure TTS", "Docker"],
-      demoUrl: "",
-      githubUrl: "https://github.com/ARCoder181105",
+      demoUrl: "https://github.com/ARCoder181105/RAG-Powered-Doc-Explorer",
+      githubUrl: "https://github.com/ARCoder181105/RAG-Powered-Doc-Explorer",
       featured: true,
     },
     {
@@ -114,8 +112,7 @@ export const portfolioConfig = {
       title: "VolunFlow – Volunteer & NGO Platform",
       description:
         "A full-stack volunteer–NGO management system with real-time event discovery, GraphQL API, automated workflows (n8n), Cloudinary media support, and containerized backend.",
-      image:
-        "https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=600",
+      image: "volunflow.png",
       tags: [
         "React",
         "Node.js",
@@ -125,8 +122,57 @@ export const portfolioConfig = {
         "Docker",
         "Cloudinary",
       ],
-      demoUrl: "",
-      githubUrl: "https://github.com/ARCoder181105",
+      demoUrl: "https://volunflow.onrender.com/",
+      githubUrl: "https://github.com/ARCoder181105/VolunFlow",
+      featured: true,
+    },
+    {
+      id: 4,
+      title: "SubTracker - Smart Subscription Manager",
+      description:
+        "A full-stack subscription tracking platform featuring automated email reminders, multi-currency support, and expense analytics. Built with React 19, Node.js, and secure OAuth authentication.",
+      image: "subTracker.png",
+      tags: [
+        "React 19",
+        "Node.js",
+        "MongoDB",
+        "Tailwind",
+        "Passport.js",
+        "NodeMailer",
+      ],
+      demoUrl: "https://subscription-tracker-frontend-1.onrender.com/",
+      githubUrl:
+        "https://github.com/ARCoder181105/Subscription-tracker-frontend",
+      featured: true,
+    },
+    {
+      id: 5,
+      title: "LinkLy - Advanced URL Shortener",
+      description:
+        "A full-stack URL management platform featuring secure admin authentication, real-time click analytics, and visitor tracking. Includes a responsive dashboard for managing links and viewing traffic data.",
+      image: "image.png",
+      tags: ["React", "Node.js", "MongoDB", "Express.js", "Tailwind CSS"],
+      demoUrl: "https://url-shortner-react.onrender.com/",
+      githubUrl: "https://github.com/ARCoder181105/url_shortner_react",
+      featured: false,
+    },
+    {
+      id: 6,
+      title: "Tourist Safety Platform - Web3 Ecosystem",
+      description:
+        "A decentralized safety ecosystem combining real-time location tracking, emergency alerts, and immutable incident reporting on the Avalanche blockchain. Features a tourist web app and authority admin portal.",
+      image:
+        "tourist.png",
+      tags: [
+        "React",
+        "Node.js",
+        "Solidity",
+        "Avalanche",
+        "Socket.io",
+        "MongoDB",
+      ],
+      demoUrl: "https://drive.google.com/file/d/1A71RU26qBpq1LqmqxfbW2v8UaIvZGQGZ/view?usp=sharing",
+      githubUrl: "https://github.com/ARCoder181105/tourist-safety-project",
       featured: true,
     },
   ],

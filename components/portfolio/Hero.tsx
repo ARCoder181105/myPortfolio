@@ -48,6 +48,8 @@ export function Hero({ data, social }: HeroProps) {
                   className="w-full h-full object-cover"
                 />
               </div>
+
+              
               <div className="absolute -bottom-2 -right-2 w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg">
                 <span className="text-white text-2xl">👋</span>
               </div>
