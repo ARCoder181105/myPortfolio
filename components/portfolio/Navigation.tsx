@@ -18,7 +18,8 @@ const navItems = [
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
+  // FIX: Destructure resolvedTheme to get the actual active theme (system or manual)
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   // Prevent hydration mismatch by waiting for mount
@@ -47,18 +48,19 @@ export function Navigation() {
     }
   };
 
-  // Toggle button component to reuse
   const ThemeToggle = () => {
-    if (!mounted) return null;
+    if (!mounted) return <div className="w-9 h-9" />; // Placeholder to prevent layout shift
     
     return (
       <Button
         variant="ghost"
         size="icon"
-        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+        // FIX: Use resolvedTheme to toggle correctly based on current visual state
+        onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
         className="text-slate-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400"
       >
-        {theme === 'dark' ? (
+        {/* FIX: Use resolvedTheme to show the correct icon */}
+        {resolvedTheme === 'dark' ? (
           <Sun className="h-5 w-5" />
         ) : (
           <Moon className="h-5 w-5" />
