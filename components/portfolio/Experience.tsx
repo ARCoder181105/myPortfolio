@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Briefcase, Calendar, MapPin, CheckCircle2 } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { TiltCard } from '@/components/ui/tilt-card';
 import { PortfolioConfig } from '@/config/portfolio';
 
 interface ExperienceProps {
@@ -40,46 +41,50 @@ export function Experience({ data, education, certifications }: ExperienceProps)
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <Card className="border-2 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                    <CardHeader>
-                      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        <div>
-                          <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-1">
-                            {job.position}
-                          </h4>
-                          <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold mb-2">
-                            <Briefcase className="w-4 h-4" />
-                            {job.company}
+                  <TiltCard>
+
+                    <Card className="border-2 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                      <CardHeader>
+                        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                          <div>
+                            <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-1">
+                              {job.position}
+                            </h4>
+                            <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold mb-2">
+                              <Briefcase className="w-4 h-4" />
+                              {job.company}
+                            </div>
+                          </div>
+                          <div className="flex flex-col gap-2 text-sm text-slate-600 dark:text-slate-400">
+                            <div className="flex items-center gap-2">
+                              <Calendar className="w-4 h-4" />
+                              {job.startDate} - {job.endDate}
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <MapPin className="w-4 h-4" />
+                              {job.location}
+                            </div>
                           </div>
                         </div>
-                        <div className="flex flex-col gap-2 text-sm text-slate-600 dark:text-slate-400">
-                          <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4" />
-                            {job.startDate} - {job.endDate}
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <MapPin className="w-4 h-4" />
-                            {job.location}
-                          </div>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-slate-700 dark:text-slate-300 mb-4">
+                          {job.description}
+                        </p>
+                        <div className="space-y-2">
+                          {job.achievements.map((achievement, achIndex) => (
+                            <div key={achIndex} className="flex items-start gap-2">
+                              <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                              <span className="text-slate-700 dark:text-slate-300">
+                                {achievement}
+                              </span>
+                            </div>
+                          ))}
                         </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-slate-700 dark:text-slate-300 mb-4">
-                        {job.description}
-                      </p>
-                      <div className="space-y-2">
-                        {job.achievements.map((achievement, achIndex) => (
-                          <div key={achIndex} className="flex items-start gap-2">
-                            <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                            <span className="text-slate-700 dark:text-slate-300">
-                              {achievement}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
+                      </CardContent>
+                    </Card>
+                  </TiltCard>
+
                 </motion.div>
               ))}
             </div>
@@ -98,29 +103,31 @@ export function Experience({ data, education, certifications }: ExperienceProps)
                   transition={{ duration: 0.5 }}
                   viewport={{ once: true }}
                 >
-                  <Card className="border-2 shadow-lg">
-                    <CardContent className="pt-6">
-                      <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                        {edu.degree}
-                      </h4>
-                      <p className="text-emerald-600 dark:text-emerald-400 font-semibold mb-2">
-                        {edu.institution}
-                      </p>
-                      <div className="flex flex-wrap gap-4 text-sm text-slate-600 dark:text-slate-400 mb-3">
-                        <div className="flex items-center gap-2">
-                          <MapPin className="w-4 h-4" />
-                          {edu.location}
+                  <TiltCard>
+                    <Card className="border-2 shadow-lg">
+                      <CardContent className="pt-6">
+                        <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                          {edu.degree}
+                        </h4>
+                        <p className="text-emerald-600 dark:text-emerald-400 font-semibold mb-2">
+                          {edu.institution}
+                        </p>
+                        <div className="flex flex-wrap gap-4 text-sm text-slate-600 dark:text-slate-400 mb-3">
+                          <div className="flex items-center gap-2">
+                            <MapPin className="w-4 h-4" />
+                            {edu.location}
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4" />
+                            {edu.year}
+                          </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4" />
-                          {edu.year}
-                        </div>
-                      </div>
-                      <p className="text-slate-700 dark:text-slate-300">
-                        {edu.description}
-                      </p>
-                    </CardContent>
-                  </Card>
+                        <p className="text-slate-700 dark:text-slate-300">
+                          {edu.description}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </TiltCard>
                 </motion.div>
               ))}
             </div>
@@ -136,20 +143,22 @@ export function Experience({ data, education, certifications }: ExperienceProps)
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
             >
-              <Card className="border-2 shadow-lg">
-                <CardContent className="pt-6">
-                  <div className="grid md:grid-cols-2 gap-3">
-                    {certifications.map((cert, index) => (
-                      <div key={index} className="flex items-start gap-2">
-                        <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                        <span className="text-slate-700 dark:text-slate-300">
-                          {cert}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+              <TiltCard>
+                <Card className="border-2 shadow-lg">
+                  <CardContent className="pt-6">
+                    <div className="grid md:grid-cols-2 gap-3">
+                      {certifications.map((cert, index) => (
+                        <div key={index} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                          <span className="text-slate-700 dark:text-slate-300">
+                            {cert}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </TiltCard>
             </motion.div>
           </div>
         </motion.div>

@@ -230,6 +230,8 @@ export const portfolioConfig = {
   certifications: [
     "MERN Stack Developer Certification – Udemy",
     "Postman API Fundamentals Student Expert – Postman",
+    "Hackerrank JavaScript(Intermediate)",
+    "Hackerrank Go(Intermediate)"
   ],
 };
 

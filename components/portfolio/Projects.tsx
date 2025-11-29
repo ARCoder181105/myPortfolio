@@ -2,7 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Star } from 'lucide-react';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { TiltCard } from '@/components/ui/tilt-card';
+import { CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { PortfolioConfig } from '@/config/portfolio';
@@ -27,7 +28,8 @@ export function Projects({ data }: ProjectsProps) {
           </h2>
           <div className="w-20 h-1 bg-emerald-600 mx-auto mb-12 rounded-full"></div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-12"> 
+             {/* Increased gap-8 to gap-12 to make room for the backlight glow */}
             {data.map((project, index) => (
               <motion.div
                 key={project.id}
@@ -35,67 +37,71 @@ export function Projects({ data }: ProjectsProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
+                className="h-full"
               >
-                <Card className="h-full overflow-hidden border-2 shadow-lg hover:shadow-2xl transition-all duration-300 group">
-                  <div className="relative h-48 overflow-hidden">
-                    {project.featured && (
-                      <div className="absolute top-4 right-4 z-10 bg-emerald-600 text-white px-3 py-1 rounded-full flex items-center gap-1 text-sm font-semibold">
-                        <Star className="w-4 h-4" />
-                        Featured
-                      </div>
-                    )}
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                  </div>
-                  <CardHeader>
-                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-                      {project.title}
-                    </h3>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-slate-600 dark:text-slate-400 mb-4">
-                      {project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag, tagIndex) => (
-                        <Badge
-                          key={tagIndex}
-                          variant="secondary"
-                          className="bg-emerald-50 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300"
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
+                <TiltCard className="rounded-xl">
+                  {/* Inner Content Structure */}
+                  <div className="h-full flex flex-col border border-slate-200 dark:border-slate-800 rounded-xl">
+                    <div className="relative h-48 overflow-hidden rounded-t-xl">
+                      {project.featured && (
+                        <div className="absolute top-4 right-4 z-10 bg-emerald-600 text-white px-3 py-1 rounded-full flex items-center gap-1 text-sm font-semibold shadow-md">
+                          <Star className="w-4 h-4" />
+                          Featured
+                        </div>
+                      )}
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                      />
                     </div>
-                  </CardContent>
-                  <CardFooter className="flex gap-2">
-                    <Button variant="outline" size="sm" asChild className="flex-1">
-                      <a
-                        href={project.demoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        Live Demo
-                      </a>
-                    </Button>
-                    <Button variant="outline" size="sm" asChild className="flex-1">
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2"
-                      >
-                        <Github className="w-4 h-4" />
-                        Code
-                      </a>
-                    </Button>
-                  </CardFooter>
-                </Card>
+                    <CardHeader>
+                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
+                        {project.title}
+                      </h3>
+                    </CardHeader>
+                    <CardContent className="flex-grow">
+                      <p className="text-slate-600 dark:text-slate-400 mb-4">
+                        {project.description}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {project.tags.map((tag, tagIndex) => (
+                          <Badge
+                            key={tagIndex}
+                            variant="secondary"
+                            className="bg-emerald-50 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300"
+                          >
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </CardContent>
+                    <CardFooter className="flex gap-2 pb-6">
+                      <Button variant="outline" size="sm" asChild className="flex-1 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
+                        <a
+                          href={project.demoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-2"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          Live Demo
+                        </a>
+                      </Button>
+                      <Button variant="outline" size="sm" asChild className="flex-1 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-2"
+                        >
+                          <Github className="w-4 h-4" />
+                          Code
+                        </a>
+                      </Button>
+                    </CardFooter>
+                  </div>
+                </TiltCard>
               </motion.div>
             ))}
           </div>
