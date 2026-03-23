@@ -1,11 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, Star, FolderGit2 } from 'lucide-react';
-import { TiltCard } from '@/components/ui/tilt-card';
-import { CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { ExternalLink, Github, Star } from 'lucide-react';
 import { PortfolioConfig } from '@/config/portfolio';
 
 interface ProjectsProps {
@@ -14,127 +10,135 @@ interface ProjectsProps {
 
 export function Projects({ data }: ProjectsProps) {
   return (
-    <section id="projects" className="py-24 bg-white dark:bg-[hsl(222,47%,6%)] relative overflow-hidden">
-      {/* Background orbs */}
-      <div className="absolute top-1/4 left-0 w-80 h-80 bg-violet-500/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl" />
+    <section id="projects" className="py-32 relative overflow-hidden">
+      <div className="absolute inset-0 dot-pattern opacity-30" />
 
-      <div className="container px-4 mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="max-w-6xl mx-auto"
-        >
-          {/* Section header */}
-          <div className="text-center mb-16">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-600 dark:text-violet-400 text-sm font-medium mb-4"
-            >
-              <FolderGit2 className="w-4 h-4" />
-              Portfolio
-            </motion.div>
-            <h2 className="text-4xl md:text-5xl font-bold gradient-text">
-              Featured Projects
-            </h2>
-          </div>
+      <div className="container px-6 md:px-12 mx-auto relative z-10">
+        <div className="max-w-6xl mx-auto">
+          {/* Section label */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="mb-16"
+          >
+            <span className="text-xs uppercase tracking-[0.3em] text-violet-400 font-medium">Work</span>
+            <div className="w-12 h-px bg-gradient-to-r from-violet-500 to-transparent mt-3" />
+          </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-10">
-            {data.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="h-full"
-              >
-                <TiltCard className="rounded-2xl">
-                  <div className="h-full flex flex-col border border-slate-200/50 dark:border-white/5 rounded-2xl overflow-hidden group">
-                    {/* Image */}
-                    <div className="relative h-52 overflow-hidden">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-display font-bold text-white/90 mb-20"
+          >
+            Featured Projects
+          </motion.h2>
+
+          {/* Projects list */}
+          <div className="space-y-24">
+            {data.map((project, index) => {
+              const isReversed = index % 2 !== 0;
+
+              return (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7 }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  className={`grid lg:grid-cols-2 gap-8 lg:gap-16 items-center ${
+                    isReversed ? 'direction-rtl' : ''
+                  }`}
+                >
+                  {/* Image */}
+                  <div className={`relative group ${isReversed ? 'lg:order-2' : ''}`}>
+                    <div className="relative overflow-hidden rounded-2xl border border-white/[0.06]">
+                      {/* Featured ribbon */}
                       {project.featured && (
-                        <div className="absolute top-4 right-4 z-10 bg-gradient-to-r from-violet-500 to-blue-500 text-white px-3 py-1 rounded-full flex items-center gap-1.5 text-xs font-semibold shadow-lg shadow-violet-500/25">
-                          <Star className="w-3.5 h-3.5" />
+                        <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-500/20 backdrop-blur-md border border-violet-500/20 text-violet-300 text-xs font-medium">
+                          <Star className="w-3 h-3" />
                           Featured
                         </div>
                       )}
+
                       <img
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="w-full h-64 md:h-80 object-cover transition-transform duration-700 group-hover:scale-105"
                       />
+
                       {/* Hover overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[hsl(240,10%,4%)]/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
                     </div>
 
-                    <CardHeader className="pb-3">
-                      <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors duration-300">
+                    {/* Glow behind */}
+                    <div className="absolute -inset-4 bg-gradient-to-r from-violet-600/[0.05] to-blue-600/[0.05] rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10" />
+                  </div>
+
+                  {/* Details */}
+                  <div className={isReversed ? 'lg:order-1 lg:text-right' : ''}>
+                    <motion.div
+                      initial={{ opacity: 0, x: isReversed ? 30 : -30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.2 }}
+                      viewport={{ once: true }}
+                    >
+                      {/* Project number */}
+                      <span className="text-xs font-mono text-violet-400/60 tracking-wider mb-3 block">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+
+                      <h3 className="text-2xl md:text-3xl font-display font-bold text-white mb-4">
                         {project.title}
                       </h3>
-                    </CardHeader>
 
-                    <CardContent className="flex-grow pb-4">
-                      <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-4">
+                      <p className="text-sm text-white/35 leading-relaxed mb-6 max-w-md">
                         {project.description}
                       </p>
-                      <div className="flex flex-wrap gap-1.5">
+
+                      {/* Tags */}
+                      <div className={`flex flex-wrap gap-2 mb-8 ${isReversed ? 'lg:justify-end' : ''}`}>
                         {project.tags.map((tag, tagIndex) => (
-                          <Badge
+                          <span
                             key={tagIndex}
-                            variant="secondary"
-                            className="bg-violet-500/10 text-violet-700 dark:text-violet-300 border-violet-500/20 border text-xs font-medium hover:bg-violet-500/20 transition-colors"
+                            className="text-xs px-3 py-1 rounded-full border border-white/[0.06] text-white/40 hover:border-violet-500/30 hover:text-violet-300 transition-all duration-300"
                           >
                             {tag}
-                          </Badge>
+                          </span>
                         ))}
                       </div>
-                    </CardContent>
 
-                    <CardFooter className="flex gap-2 pb-6 pt-0">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        asChild
-                        className="flex-1 border-violet-500/20 hover:bg-violet-500/10 hover:border-violet-500/40 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-300"
-                      >
+                      {/* Links */}
+                      <div className={`flex gap-4 ${isReversed ? 'lg:justify-end' : ''}`}>
                         <a
                           href={project.demoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2"
+                          className="group/link flex items-center gap-2 text-xs uppercase tracking-wider text-white/40 hover:text-violet-400 transition-colors duration-300"
                         >
                           <ExternalLink className="w-4 h-4" />
                           Live Demo
+                          <span className="w-0 group-hover/link:w-4 h-px bg-violet-400 transition-all duration-300" />
                         </a>
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        asChild
-                        className="flex-1 border-violet-500/20 hover:bg-violet-500/10 hover:border-violet-500/40 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-300"
-                      >
                         <a
                           href={project.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2"
+                          className="group/link flex items-center gap-2 text-xs uppercase tracking-wider text-white/40 hover:text-violet-400 transition-colors duration-300"
                         >
                           <Github className="w-4 h-4" />
-                          Code
+                          Source Code
+                          <span className="w-0 group-hover/link:w-4 h-px bg-violet-400 transition-all duration-300" />
                         </a>
-                      </Button>
-                    </CardFooter>
+                      </div>
+                    </motion.div>
                   </div>
-                </TiltCard>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

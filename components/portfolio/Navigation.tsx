@@ -2,39 +2,27 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Moon, Sun } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useTheme } from 'next-themes';
+import { Home, User, Code2, FolderGit2, Briefcase, MessageSquare } from 'lucide-react';
 
 const navItems = [
-  { label: 'Home', href: '#' },
-  { label: 'About', href: '#about' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', href: '#', icon: Home },
+  { label: 'About', href: '#about', icon: User },
+  { label: 'Skills', href: '#skills', icon: Code2 },
+  { label: 'Projects', href: '#projects', icon: FolderGit2 },
+  { label: 'Experience', href: '#experience', icon: Briefcase },
+  { label: 'Contact', href: '#contact', icon: MessageSquare },
 ];
 
 export function Navigation() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const [activeSection, setActiveSection] = useState('#');
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-
       // Detect active section
-      const sections = navItems.map(item => item.href.replace('#', '')).filter(Boolean);
+      const sections = navItems.map(i => i.href.replace('#', '')).filter(Boolean);
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
-        if (el && el.getBoundingClientRect().top <= 120) {
+        if (el && el.getBoundingClientRect().top <= 150) {
           setActiveSection(`#${sections[i]}`);
           return;
         }
@@ -42,157 +30,63 @@ export function Navigation() {
       setActiveSection('#');
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const scrollToSection = (href: string) => {
-    setIsMobileMenuOpen(false);
     if (href === '#') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  const ThemeToggle = () => {
-    if (!mounted) return <div className="w-9 h-9" />;
-
-    return (
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
-        className="relative text-slate-700 dark:text-slate-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-500/10"
-      >
-        <motion.div
-          key={resolvedTheme}
-          initial={{ scale: 0, rotate: -90 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ duration: 0.3, type: 'spring' }}
-        >
-          {resolvedTheme === 'dark' ? (
-            <Sun className="h-5 w-5" />
-          ) : (
-            <Moon className="h-5 w-5" />
-          )}
-        </motion.div>
-        <span className="sr-only">Toggle theme</span>
-      </Button>
-    );
-  };
-
   return (
-    <>
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
-            ? 'bg-white/70 dark:bg-slate-950/70 backdrop-blur-2xl shadow-lg shadow-violet-500/5 border-b border-white/10'
-            : 'bg-transparent'
-        }`}
-      >
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16 md:h-20">
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection('#');
-              }}
-              className="text-2xl font-bold gradient-text cursor-pointer"
+    <motion.nav
+      initial={{ y: -100, x: "-50%", opacity: 0 }}
+      animate={{ y: 0, x: "-50%", opacity: 1 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 1 }}
+      className="fixed top-6 left-1/2 z-50"
+    >
+      <div className="flex items-center gap-1 px-2 py-2 rounded-2xl bg-white/[0.03] backdrop-blur-2xl border border-white/[0.06] shadow-2xl shadow-black/40">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeSection === item.href;
+
+          return (
+            <button
+              key={item.label}
+              onClick={() => scrollToSection(item.href)}
+              className={`relative group flex items-center gap-1.5 md:gap-2 px-2.5 md:px-3 py-2 md:py-2.5 rounded-xl transition-all duration-300 cursor-pointer ${
+                isActive
+                  ? 'bg-violet-500/15 text-violet-400'
+                  : 'text-white/40 hover:text-white/80 hover:bg-white/[0.04]'
+              }`}
             >
-              &lt;AR /&gt;
-            </a>
-
-            <div className="hidden md:flex items-center gap-1">
-              {navItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection(item.href);
-                  }}
-                  className={`relative px-4 py-2 text-sm font-medium transition-colors cursor-pointer rounded-lg ${
-                    activeSection === item.href
-                      ? 'text-violet-600 dark:text-violet-400'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400'
-                  }`}
-                >
-                  {item.label}
-                  {activeSection === item.href && (
-                    <motion.div
-                      layoutId="activeNav"
-                      className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-violet-500 to-blue-500 rounded-full"
-                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                </a>
-              ))}
-              <div className="ml-2">
-                <ThemeToggle />
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 md:hidden">
-              <ThemeToggle />
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 text-slate-700 dark:text-slate-300 hover:text-violet-500 transition-colors"
+              <Icon className="w-4 h-4 flex-shrink-0" />
+              {/* Show label on active or on larger screens */}
+              <span
+                className={`text-xs font-medium whitespace-nowrap transition-all duration-300 hidden md:block ${
+                  isActive ? 'opacity-100 max-w-[80px]' : 'opacity-0 max-w-0 overflow-hidden group-hover:opacity-100 group-hover:max-w-[80px]'
+                }`}
               >
-                {isMobileMenuOpen ? (
-                  <X className="w-6 h-6" />
-                ) : (
-                  <Menu className="w-6 h-6" />
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      </motion.nav>
+                {item.label}
+              </span>
 
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ duration: 0.3, type: 'spring', stiffness: 200 }}
-            className="fixed inset-0 z-40 bg-white/95 dark:bg-slate-950/95 backdrop-blur-2xl md:hidden pt-20"
-          >
-            <div className="container px-4 py-8">
-              <div className="flex flex-col gap-2">
-                {navItems.map((item, index) => (
-                  <motion.a
-                    key={item.label}
-                    href={item.href}
-                    initial={{ opacity: 0, x: 40 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(item.href);
-                    }}
-                    className={`text-2xl font-semibold py-3 px-4 rounded-xl transition-all cursor-pointer ${
-                      activeSection === item.href
-                        ? 'text-violet-600 dark:text-violet-400 bg-violet-500/10'
-                        : 'text-slate-700 dark:text-slate-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-500/5'
-                    }`}
-                  >
-                    {item.label}
-                  </motion.a>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+              {/* Active dot indicator */}
+              {isActive && (
+                <motion.div
+                  layoutId="dock-active"
+                  className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-400"
+                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                />
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </motion.nav>
   );
 }
