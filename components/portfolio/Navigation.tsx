@@ -15,9 +15,18 @@ const navItems = [
 
 export function Navigation() {
   const [activeSection, setActiveSection] = useState('#');
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Check if mobile on mount and resize
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
     const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+
       // Detect active section
       const sections = navItems.map(i => i.href.replace('#', '')).filter(Boolean);
       for (let i = sections.length - 1; i >= 0; i--) {
@@ -30,8 +39,14 @@ export function Navigation() {
       setActiveSection('#');
     };
 
+    // Initial check
+    handleScroll();
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', checkMobile);
+    };
   }, []);
 
   const scrollToSection = (href: string) => {
@@ -43,13 +58,20 @@ export function Navigation() {
     }
   };
 
+  // On mobile: Hide at top (!isScrolled), show when scrolled.
+  // On desktop: Always show.
+  const shouldShow = isMobile ? isScrolled : true;
+
   return (
-    <motion.nav
-      initial={{ y: -100, x: "-50%", opacity: 0 }}
-      animate={{ y: 0, x: "-50%", opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 1 }}
-      className="fixed top-6 left-1/2 z-50"
-    >
+    <AnimatePresence>
+      {shouldShow && (
+        <motion.nav
+          initial={{ y: -100, x: "-50%", opacity: 0 }}
+          animate={{ y: 0, x: "-50%", opacity: 1 }}
+          exit={{ y: -100, x: "-50%", opacity: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed top-6 left-1/2 z-50"
+        >
       <div className="flex items-center gap-1 px-2 py-2 rounded-2xl bg-white/[0.03] backdrop-blur-2xl border border-white/[0.06] shadow-2xl shadow-black/40">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -87,6 +109,8 @@ export function Navigation() {
           );
         })}
       </div>
-    </motion.nav>
+        </motion.nav>
+      )}
+    </AnimatePresence>
   );
 }
