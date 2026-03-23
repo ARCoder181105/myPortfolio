@@ -13,19 +13,15 @@ export function TiltCard({ children, className }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
-  // 1. Track mouse position
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  // 2. Smooth out the mouse movements
   const mouseX = useSpring(x, { stiffness: 300, damping: 30 });
   const mouseY = useSpring(y, { stiffness: 300, damping: 30 });
 
-  // 3. Calculate Rotation (Tilt)
-  const rotateX = useTransform(mouseY, [-0.5, 0.5], ["15deg", "-15deg"]);
-  const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-15deg", "15deg"]);
+  const rotateX = useTransform(mouseY, [-0.5, 0.5], ["12deg", "-12deg"]);
+  const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-12deg", "12deg"]);
 
-  // 4. Calculate Backlight Position (Opposite to mouse for parallax)
   const backlightX = useTransform(mouseX, [-0.5, 0.5], ["-20%", "20%"]);
   const backlightY = useTransform(mouseY, [-0.5, 0.5], ["-20%", "20%"]);
 
@@ -82,13 +78,11 @@ export function TiltCard({ children, className }: TiltCardProps) {
             opacity: isHovered ? 1 : 0,
             transform: "translateZ(-50px)",
           }}
-          // Light Mode: Slightly darker green/teal with low opacity for a "colored shadow" look
-          // Dark Mode: Bright emerald/teal with higher opacity for a "neon glow" look
-          className="absolute -inset-4 bg-gradient-to-r from-emerald-600/30 via-teal-600/30 to-emerald-600/30 dark:from-emerald-500/50 dark:via-teal-500/50 dark:to-emerald-500/50 blur-3xl rounded-xl -z-10 transition-opacity duration-500"
+          className="absolute -inset-4 bg-gradient-to-r from-violet-600/30 via-blue-600/30 to-indigo-600/30 dark:from-violet-500/40 dark:via-blue-500/40 dark:to-indigo-500/40 blur-3xl rounded-xl -z-10 transition-opacity duration-500"
         />
 
         {/* --- CARD CONTENT --- */}
-        <div style={{ transform: "translateZ(20px)" }} className="h-full bg-white dark:bg-slate-900 rounded-xl overflow-hidden">
+        <div style={{ transform: "translateZ(20px)" }} className="h-full bg-white dark:bg-slate-900/80 rounded-xl overflow-hidden">
           {children}
         </div>
       </motion.div>

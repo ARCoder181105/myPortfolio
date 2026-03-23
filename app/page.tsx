@@ -12,7 +12,7 @@ import { Footer } from '@/components/portfolio/Footer';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white dark:bg-slate-950">
+    <main className="min-h-screen bg-white dark:bg-[hsl(222,47%,6%)]">
       <Navigation />
       <Hero data={portfolioConfig.personal} social={portfolioConfig.social} />
       <About data={portfolioConfig.about} />
@@ -23,7 +23,7 @@ export default function Home() {
         education={portfolioConfig.education}
         certifications={portfolioConfig.certifications}
       />
-      <Contact data={portfolioConfig.personal} social = {portfolioConfig.social} />
+      <Contact data={portfolioConfig.personal} social={portfolioConfig.social} />
       <Footer social={portfolioConfig.social} name={portfolioConfig.personal.name} />
     </main>
   );
